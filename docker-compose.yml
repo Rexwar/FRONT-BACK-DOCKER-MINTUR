@@ -4,11 +4,7 @@ services:
     # PHP Service
     backend:
         image: rickyurvina/apiminturismo
-<<<<<<< HEAD
-        restart: always
-=======
         # image: apiminturismo
->>>>>>> b88e53ca2965eaf995baf9356391ceecdff69ea0
         container_name: "${PROJECT_NAME}_backend"
         tty: true
         restart: always
@@ -21,7 +17,6 @@ services:
             - private
 
     # Frontend Service
-<<<<<<< HEAD
     frontend:
         image: rickyurvina/frontminturismo
         restart: always
@@ -32,19 +27,6 @@ services:
             - '80:80' 
         networks:
             - private
-=======
-    # frontend:
-    #     # image: cruzroja.azurecr.io/frontminturismo
-    #     image: rickyurvina/frontminturismo
-    #     container_name: "${PROJECT_NAME}_frontend"
-    #     volumes: 
-    #         - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
-    #     ports: 
-    #         - '80:80' 
-    #     networks:
-    #         - private
-
->>>>>>> b88e53ca2965eaf995baf9356391ceecdff69ea0
 
     # MySQL Service
     mysql:
@@ -52,7 +34,6 @@ services:
         container_name: "${PROJECT_NAME}_mysql"
         restart: always
         tty: true
-        restart: always
         environment:
             MYSQL_USER: ${USER_MYSQL}
             MYSQL_PASSWORD: ${PASS_MYSQL}
