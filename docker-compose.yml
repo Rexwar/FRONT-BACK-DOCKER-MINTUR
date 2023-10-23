@@ -1,0 +1,107 @@
+
+services:
+
+    # PHP Service
+    backend:
+        image: rickyurvina/apiminturismo
+<<<<<<< HEAD
+        restart: always
+=======
+        # image: apiminturismo
+>>>>>>> b88e53ca2965eaf995baf9356391ceecdff69ea0
+        container_name: "${PROJECT_NAME}_backend"
+        tty: true
+        restart: always
+        environment:
+            SERVICE_NAME: backend
+            PHP_MEMORY_LIMIT: 512M 
+        volumes:
+            - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        networks:
+            - private
+
+    # Frontend Service
+<<<<<<< HEAD
+    frontend:
+        image: rickyurvina/frontminturismo
+        restart: always
+        container_name: "${PROJECT_NAME}_frontend"
+        volumes: 
+            - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+        ports: 
+            - '80:80' 
+        networks:
+            - private
+=======
+    # frontend:
+    #     # image: cruzroja.azurecr.io/frontminturismo
+    #     image: rickyurvina/frontminturismo
+    #     container_name: "${PROJECT_NAME}_frontend"
+    #     volumes: 
+    #         - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+    #     ports: 
+    #         - '80:80' 
+    #     networks:
+    #         - private
+
+>>>>>>> b88e53ca2965eaf995baf9356391ceecdff69ea0
+
+    # MySQL Service
+    mysql:
+        image: mysql:latest
+        container_name: "${PROJECT_NAME}_mysql"
+        restart: always
+        tty: true
+        restart: always
+        environment:
+            MYSQL_USER: ${USER_MYSQL}
+            MYSQL_PASSWORD: ${PASS_MYSQL}
+            MYSQL_DATABASE: ${MYSQL_DB}
+            MYSQL_ROOT_PASSWORD: ${PASS_ROOT_MYSQL}
+            MYSQL_ROOT_HOST: '%'
+            SERVICE_NAME: mysql
+        volumes:
+            - mysql_data:/var/lib/mysql
+        networks:
+            - private
+
+    # PHPMYADMIN Service
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: "${PROJECT_NAME}_phpmyadmin"
+        restart: always
+        ports:
+            - "7000:80"
+        links:
+            - mysql:mysql
+        environment:
+            MYSQL_USER: ${USER_MYSQL}
+            MYSQL_PASSWORD: ${PASS_MYSQL}
+            MYSQL_ROOT_PASSWORD: ${PASS_ROOT_MYSQL}
+            MYSQL_ROOT_HOST: '%'
+            PMA_HOST: mysql
+        networks:
+            - private
+
+    # Nginx Service
+    webserver:
+        image: nginx:alpine
+        container_name: "${PROJECT_NAME}_webserver"
+        restart: always
+        tty: true
+        ports:
+            - "8000:80"
+            - "443:443"
+        volumes:
+            - ./docker/app/:/var/www/backend
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - private
+
+
+# Docker Networks
+networks:
+    private:
+        driver: bridge
+volumes:
+  mysql_data:
